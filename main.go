@@ -15,6 +15,12 @@ func main() {
 		log.Fatalln(err)
 	}
 
-	rows := db.QueryRowx("select 2+2")
+	rows := db.QueryRowx("select extract(year from now())")
+	var result int
+	err = rows.Scan(&result)
+	if err != nil {
+		log.Fatalln(err)
+	}
+	fmt.Println(result)
 	fmt.Println(rows)
 }
