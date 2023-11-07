@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"log"
 
@@ -9,9 +10,9 @@ import (
 )
 
 type Product struct {
-	ID    int64  `db:"id"`
-	Name  string `db:"name"`
-	Price int32  `db:"price"`
+	ID    int64  `db:"id" json:"id"`
+	Name  string `db:"name" json:"name"`
+	Price int32  `db:"price" json:"price"`
 }
 
 func main() {
@@ -35,4 +36,10 @@ func main() {
 		log.Fatalln(err)
 	}
 	fmt.Println(products)
+
+	data, err := json.MarshalIndent(products, "", "  ")
+	if err != nil {
+		log.Fatalln(err)
+	}
+	fmt.Println(string(data))
 }
