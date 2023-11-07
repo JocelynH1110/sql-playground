@@ -6,14 +6,9 @@ import (
 	"log"
 
 	"github.com/jmoiron/sqlx"
+	"github.com/jocelynh1110/sql-playground/models"
 	_ "github.com/lib/pq"
 )
-
-type Product struct {
-	ID    int64  `db:"id" json:"id"`
-	Name  string `db:"name" json:"name"`
-	Price int32  `db:"price" json:"price"`
-}
 
 func main() {
 	// 連接localhost
@@ -30,8 +25,7 @@ func main() {
 	}
 	fmt.Println(result)
 
-	products := []Product{}
-	err = db.Select(&products, "select id,name,price from products")
+	products, err := models.ListProducts(db)
 	if err != nil {
 		log.Fatalln(err)
 	}
@@ -42,4 +36,5 @@ func main() {
 		log.Fatalln(err)
 	}
 	fmt.Println(string(data))
+
 }
