@@ -8,6 +8,12 @@ import (
 	_ "github.com/lib/pq"
 )
 
+type Product struct {
+	ID    int64  `db:"id"`
+	Name  string `db:"name"`
+	Price int32  `db:"price"`
+}
+
 func main() {
 	// 連接localhost
 	db, err := sqlx.Connect("postgres", "postgres://postgres:postgres@127.0.0.1:5432/playground")
@@ -22,5 +28,11 @@ func main() {
 		log.Fatalln(err)
 	}
 	fmt.Println(result)
-	fmt.Println(rows)
+
+	products := []Product{}
+	err = db.Select(&products, "select id,name,price from products")
+	if err != nil {
+		log.Fatalln(err)
+	}
+	fmt.Println(products)
 }
